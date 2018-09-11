@@ -4,6 +4,7 @@
 # Install background music + overlay
 #############################################
 
+sudo apt-get install python-pygame imagemagick
 cd /home/pi
 git clone https://github.com/madmodder123/retropie_music_overlay.git
 cd /home/pi/retropie_music_overlay
