@@ -36,7 +36,7 @@ else:
 print "Resolution - " + resolution + " - " + screen_width + "x" + screen_height
 
 ###Overlay Config###
-overlay_pngview_location = '/usr/bin/pngview'
+overlay_pngview_location = '/usr/local/bin/pngview'
 overlay_background_color = 'black'
 overlay_text_color = 'white'
 overlay_text_font = 'FreeSans'
