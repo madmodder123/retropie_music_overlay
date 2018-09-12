@@ -1,10 +1,9 @@
 This has all the files needed to install the background music script with added overlays!
-I will try to work on a bash script to automatically do this stuff.
+Just make the bash script executable with "sudo chmod +x BGM_Install.sh" and run it and it will do the following:
 
-You will need to do "sudo apt-get install python-pygame imagemagick" to install the needed software.
-
-Place pngview in /usr/local/bin/
-
+Download/install python-pygame and imagemagick.
+Move pngview to the correct directory.
+Create the /home/pi/BGM folder for music.
 
 Props to Livewire for the original script: https://retropie.org.uk/forum/topic/347/background-music-continued-from-help-support
 
