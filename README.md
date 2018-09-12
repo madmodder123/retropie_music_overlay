@@ -7,7 +7,10 @@ Move pngview to the correct directory.
 
 Create the /home/pi/BGM folder for music.
 
+Pictures here: https://imgur.com/a/J9iek
 
 Props to Livewire for the original script: https://retropie.org.uk/forum/topic/347/background-music-continued-from-help-support
 
 Special thanks to AndrewFromMelbourne for pngview: https://github.com/AndrewFromMelbourne/raspidmx
+
+RetroPie forum thread: https://retropie.org.uk/forum/topic/16458/modified-background-music-script-with-added-overlays
