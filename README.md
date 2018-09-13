@@ -12,6 +12,7 @@ Pictures here: https://imgur.com/a/J9iek
 Edit these to adjust the script to your needs:
 
 ###CONFIG SECTION###
+
 startdelay = 0 # Value (in seconds) to delay audio start.  If you have a splash screen with audio and the script is playing music over the top of it, increase this value to delay the script from starting.
 
 musicdir = '/home/pi/BGM'
