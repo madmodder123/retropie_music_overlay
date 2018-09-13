@@ -36,6 +36,7 @@ else:
 print "Resolution - " + resolution + " - " + screen_width + "x" + screen_height
 
 ###Overlay Config###
+overlay_enable = True
 overlay_pngview_location = '/usr/local/bin/pngview'
 overlay_background_color = 'black'
 overlay_text_color = 'white'
@@ -139,16 +140,18 @@ while True:
 			currentsong = random.randint(0,len(bgm)-1)
 		song = os.path.join(musicdir,bgm[currentsong])
 		mixer.music.load(song)
-		os.system("sudo killall " + overlay_pngview_location + " &") # Kill song overlay
+		if overlay_enable == True:
+			os.system("sudo killall " + overlay_pngview_location + " &") # Kill song overlay
 		lastsong=currentsong
 		mixer.music.set_volume(maxvolume) # Pygame sets this to 1.0 on new song; in case max volume -isnt- 1, set it to max volume.
 		mixer.music.play()
 		print "BGM Now Playing: " + song
 		song_title = re.sub(r"(" + musicdir + "/|\.\w*$)", "", song) # Remove directory and extension from song
-		generate_image = "sudo convert -background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text
-		os.system(generate_image)
-		show_overlay = overlay_pngview_location + " -d 0 -b 0x0000 -l 15000 -y " + overlay_y_offset + " -x " + overlay_x_offset + " " + overlay_tmp_file + " &"
-		os.system(show_overlay)
+		if overlay_enable == True:
+			generate_image = "sudo convert -background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text
+			os.system(generate_image)
+			show_overlay = overlay_pngview_location + " -d 0 -b 0x0000 -l 15000 -y " + overlay_y_offset + " -x " + overlay_x_offset + " " + overlay_tmp_file + " &"
+			os.system(show_overlay)
 		
 	#Emulator check
 	pids = [pid for pid in os.listdir('/proc') if pid.isdigit()] 
@@ -164,7 +167,8 @@ while True:
 				emulator = pid;
 				#Turn down the music
 				print "Emulator found! " + procname[:-1] + " Muting the music..."
-				os.system("sudo killall " + overlay_pngview_location + " &") # Kill song overlay
+				if overlay_enable == True:
+					os.system("sudo killall " + overlay_pngview_location + " &") # Kill song overlay
 				while volume > 0:
 					volume = volume - volumefadespeed
 					if volume < 0:
@@ -182,7 +186,8 @@ while True:
 				print "Emulator finished, resuming audio..."
 				if not restart:
 					mixer.music.unpause() #resume
-					os.system(show_overlay) # Display generated PNG
+					if overlay_enable == True:
+						os.system(show_overlay) # Display generated PNG
 					while volume < maxvolume:
 						volume = volume + volumefadespeed;
 						if volume > maxvolume:
