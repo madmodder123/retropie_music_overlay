@@ -9,7 +9,7 @@ Create the /home/pi/BGM folder for music.
 
 Pictures here: https://imgur.com/a/J9iek
 
-<br><br><br>
+<br><br>
 Edit these to adjust the script to your needs:
 <br>
 ###CONFIG SECTION###
@@ -26,7 +26,7 @@ restart = True # If true, this will cause the script to fade the music out and -
 
 startsong = "" # if this is not blank, this is the EXACT, CaSeSeNsAtIvE filename of the song you always want to play first on boot.
 
-<br><br>
+<br>
 ###Overlay Config###
 
 overlay_enable = True
@@ -41,7 +41,7 @@ overlay_text_font = 'FreeSans'
 
 overlay_tmp_file = '/dev/shm/song_title.png'
 
-<br><br><br>
+<br><br>
 
 
 Props to Livewire for the original script: https://retropie.org.uk/forum/topic/347/background-music-continued-from-help-support
