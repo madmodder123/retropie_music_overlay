@@ -41,6 +41,12 @@ overlay_text_font = 'FreeSans'
 
 overlay_tmp_file = '/dev/shm/song_title.png'
 
+overlay_size = '600x32'
+
+overlay_x_offset = '0'
+
+overlay_y_offset = '0'
+
 <br><br>
 
 
