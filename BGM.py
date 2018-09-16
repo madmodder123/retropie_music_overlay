@@ -127,13 +127,14 @@ while True:
 				continue
 				
 	#Check to see if the DisableMusic file exists; if it does, stop doing everything!
-	if os.path.exists('/home/pi/PyScripts/DisableMusic'):
+	if os.path.exists('/home/pi/DisableMusic'):
 		print "DisableMusic found!"
-		if mixer.music.get_busy():
-			mixer.music.stop();
-		while (os.path.exists('/home/pi/PyScripts/DisableMusic')):
-			time.sleep(15)
-		print "DisableMusic gone!"
+		exit()
+		#if mixer.music.get_busy():
+			#mixer.music.stop();
+		#while (os.path.exists('/home/pi/DisableMusic')):
+			#time.sleep(15)
+		#print "DisableMusic gone!"
 
 	if not mixer.music.get_busy(): # We aren't currently playing any music
 		while currentsong == lastsong and len(bgm) > 1:	#If we have more than one BGM, choose a new one until we get one that isn't what we just played.
