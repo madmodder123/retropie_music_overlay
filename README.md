@@ -7,7 +7,18 @@ Move pngview to the correct directory.
 
 Create the /home/pi/BGM folder for music.
 
+Add a menu item in the retropie section to enable/disable the music.
+
 Pictures here: https://imgur.com/a/J9iek
+
+<b>You will still have to set up the script to run automatically when the Pi boots!:
+Run "sudo nano /etc/rc.local"
+Near the bottom, on the line above "exit 0", put the following code
+
+    (sudo python /home/pi/BGM.py) &
+
+Press Control+X, Y, and Enter to save changes.
+Reboot and enjoy!</b>
 
 <br><br>
 Edit these to adjust the script to your needs:
