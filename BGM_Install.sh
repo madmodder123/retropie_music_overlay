@@ -15,7 +15,7 @@ cd /home/pi/retropie_music_overlay
 sudo chmod +x pngview
 sudo cp pngview /usr/local/bin/
 sudo chmod +x BGM.py
-if [ -f "/home/pi/BGM.py" ];
+if [ -f "/home/pi/BGM.py" ]; #Remove old version if it is there
 then
 	sudo rm -f /home/pi/BGM.py
 fi
@@ -24,19 +24,23 @@ mkdir /home/pi/BGM/
 
 sudo cp BGM.png /home/pi/RetroPie/retropiemenu/icons/
 sudo chmod +x BGM_Toggle.sh
-if [ -f "/home/pi/RetroPie/retropiemenu/BGM_Toggle.sh" ];
+if [ -f "/home/pi/RetroPie/retropiemenu/BGM_Toggle.sh" ]; #Remove old version if it is there
 then
 	sudo rm -f /home/pi/RetroPie/retropiemenu/BGM_Toggle.sh
 fi
 sudo cp BGM_Toggle.sh /home/pi/RetroPie/retropiemenu/
- 
+
+if [ -s /home/pi/RetroPie/retropiemenu/gamelist.xml ] #Remove gamelist.xml if file size is 0
+then
+	sudo rm -f /home/pi/RetroPie/retropiemenu/gamelist.xml
+fi
 if [ ! -f "/home/pi/RetroPie/retropiemenu/gamelist.xml" ]; #If file doesn't exist, copy gamelist.xml to folder
 then
 	sudo cp /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml /home/pi/RetroPie/retropiemenu/gamelist.xml
 fi
 CONTENT="<game>\n<path>/home/pi/RetroPie/retropiemenu/BGM_Toggle.sh</path>\n<name>Background Music</name>\n<desc>Toggles background music ON/OFF.</desc>\n<image>./icons/BGM.png</image>\n</game>"
 C=$(echo $CONTENT | sed 's/\//\\\//g')
-if grep -q BGM_Toggle.sh "/home/pi/RetroPie/retropiemenu/gamelist.xml"; 
+if grep -q BGM_Toggle.sh "/home/pi/RetroPie/retropiemenu/gamelist.xml"; #Check if menu entry is already there or not
 then
   echo "gamelist.xml entry confirmed"
 else
