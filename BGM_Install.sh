@@ -30,7 +30,7 @@ then
 fi
 sudo cp BGM_Toggle.sh /home/pi/RetroPie/retropiemenu/
 
-if [ -s /home/pi/RetroPie/retropiemenu/gamelist.xml ] #Remove gamelist.xml if file size is 0
+if [ ! -s /home/pi/RetroPie/retropiemenu/gamelist.xml ] #Remove gamelist.xml if file size is 0
 then
 	sudo rm -f /home/pi/RetroPie/retropiemenu/gamelist.xml
 fi
