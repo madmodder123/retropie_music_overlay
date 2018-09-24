@@ -1,5 +1,5 @@
 This has all the files needed to install the background music script with added overlays!
-Just make the bash script executable with "sudo chmod +x BGM_Install.sh" and run it and it will do the following:
+Just make the bash script executable with "sudo chmod +x BGM_Install.sh" and run it as root ("sudo ./BGM_Install.sh") and it will do the following:
 
 Download/install python-pygame and imagemagick.
 
