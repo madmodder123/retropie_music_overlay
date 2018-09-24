@@ -33,7 +33,7 @@ elif int(screen_height) <= 599:
 	resolution = "SD"
 else:
 	resolution = "ERROR"
-print "Resolution - " + resolution + " - " + screen_width + "x" + screen_height
+######print "Resolution - " + resolution + " - " + screen_width + "x" + screen_height
 
 ###Overlay Config###
 overlay_enable = True
@@ -128,7 +128,7 @@ while True:
 				
 	#Check to see if the DisableMusic file exists; if it does, stop doing everything!
 	if os.path.exists('/home/pi/DisableMusic'):
-		print "DisableMusic found!"
+		###############DisableMusic found!
 		exit()
 		#if mixer.music.get_busy():
 			#mixer.music.stop();
@@ -146,7 +146,7 @@ while True:
 		lastsong=currentsong
 		mixer.music.set_volume(maxvolume) # Pygame sets this to 1.0 on new song; in case max volume -isnt- 1, set it to max volume.
 		mixer.music.play()
-		print "BGM Now Playing: " + song
+		#####print "BGM Now Playing: " + song
 		song_title = re.sub(r"(" + musicdir + "/|\.\w*$)", "", song) # Remove directory and extension from song
 		if overlay_enable == True:
 			generate_image = "sudo convert -background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text
@@ -167,7 +167,7 @@ while True:
 			if procname[:-1] in emulatornames: #If the process name is in our list of known emulators
 				emulator = pid;
 				#Turn down the music
-				print "Emulator found! " + procname[:-1] + " Muting the music..."
+				######print "Emulator found! " + procname[:-1] + " Muting the music..."
 				if overlay_enable == True:
 					os.system("sudo killall " + overlay_pngview_location + " &") # Kill song overlay
 				while volume > 0:
@@ -180,11 +180,11 @@ while True:
 					mixer.music.stop() #we aren't going to resume the audio, so stop it outright.
 				else:
 					mixer.music.pause() #we are going to resume, so pause it.
-				print("Muted.  Monitoring emulator.")
+				######print("Muted.  Monitoring emulator.")
 				while os.path.exists("/proc/" + pid):
 					time.sleep(1); # Delay 1 second and check again.
 				#Turn up the music
-				print "Emulator finished, resuming audio..."
+				######print "Emulator finished, resuming audio..."
 				if not restart:
 					mixer.music.unpause() #resume
 					if overlay_enable == True:
@@ -195,7 +195,7 @@ while True:
 							volume=maxvolume
 						mixer.music.set_volume(volume);
 						time.sleep(0.05)				
-				print "Restored."
+				######print "Restored."
 				volume=maxvolume # ensures that the volume is manually set (if restart is True, volume would be at zero)
 		except IOError: #proc has already terminated, ignore.
 			continue
