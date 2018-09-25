@@ -20,6 +20,8 @@ Near the bottom, on the line above "exit 0", put the following code
 Press Control+X, Y, and Enter to save changes.
 Reboot and enjoy!</b>
 
+Example rc.local file: https://pastebin.com/67BnuB17
+
 <br><br>
 Edit these to adjust the script to your needs:
 <br>
