@@ -36,12 +36,15 @@ else:
 ######print "Resolution - " + resolution + " - " + screen_width + "x" + screen_height
 
 ###Overlay Config###
-overlay_enable = True
+overlay_enable = True # Enable or disable the overlay
+overlay_fade_out = True # Change to "False" to have the overlay remain on the screen until an emulator/application is launched
+overlay_fade_out_time = 8 # Hide the overlay after X seconds
 overlay_pngview_location = '/usr/local/bin/pngview'
 overlay_background_color = 'black'
 overlay_text_color = 'white'
 overlay_text_font = 'FreeSans'
 overlay_tmp_file = '/dev/shm/song_title.png'
+
 
 # The code below adjusts the size/location of the overlay depending upon the screen resolution
 # Adjust these to your needs
@@ -141,8 +144,8 @@ while True:
 			currentsong = random.randint(0,len(bgm)-1)
 		song = os.path.join(musicdir,bgm[currentsong])
 		mixer.music.load(song)
-		if overlay_enable == True:
-			os.system("sudo killall " + overlay_pngview_location + " &") # Kill song overlay
+		if overlay_enable == True :
+			os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay
 		lastsong=currentsong
 		mixer.music.set_volume(maxvolume) # Pygame sets this to 1.0 on new song; in case max volume -isnt- 1, set it to max volume.
 		mixer.music.play()
@@ -153,6 +156,9 @@ while True:
 			os.system(generate_image)
 			show_overlay = overlay_pngview_location + " -d 0 -b 0x0000 -l 15000 -y " + overlay_y_offset + " -x " + overlay_x_offset + " " + overlay_tmp_file + " &"
 			os.system(show_overlay)
+			if overlay_fade_out == True:
+				time.sleep(overlay_fade_out_time)
+				os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay
 		
 	#Emulator check
 	pids = [pid for pid in os.listdir('/proc') if pid.isdigit()] 
@@ -169,7 +175,7 @@ while True:
 				#Turn down the music
 				######print "Emulator found! " + procname[:-1] + " Muting the music..."
 				if overlay_enable == True:
-					os.system("sudo killall " + overlay_pngview_location + " &") # Kill song overlay
+					os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay
 				while volume > 0:
 					volume = volume - volumefadespeed
 					if volume < 0:
@@ -187,14 +193,17 @@ while True:
 				######print "Emulator finished, resuming audio..."
 				if not restart:
 					mixer.music.unpause() #resume
-					if overlay_enable == True:
-						os.system(show_overlay) # Display generated PNG
 					while volume < maxvolume:
 						volume = volume + volumefadespeed;
 						if volume > maxvolume:
 							volume=maxvolume
 						mixer.music.set_volume(volume);
-						time.sleep(0.05)				
+						time.sleep(0.05)
+					if overlay_enable == True:
+						os.system(show_overlay) # Display generated PNG
+						if overlay_fade_out == True:
+							time.sleep(overlay_fade_out_time)
+							os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay	
 				######print "Restored."
 				volume=maxvolume # ensures that the volume is manually set (if restart is True, volume would be at zero)
 		except IOError: #proc has already terminated, ignore.
@@ -203,4 +212,4 @@ while True:
 	time.sleep(1);
 	#end of the main while loop
 	
-print "An error has occurred that has stopped Test1.py from executing." #theoretically you should never get this far.
+print "An error has occurred that has stopped BGM.py from executing." #theoretically you should never get this far.
