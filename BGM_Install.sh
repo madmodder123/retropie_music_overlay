@@ -15,6 +15,8 @@ cd /home/pi/retropie_music_overlay
 sudo chmod +x pngview
 sudo cp pngview /usr/local/bin/
 sudo chmod +x BGM.py
+sudo chown pi:pi BGM.py
+sudo chmod 0777 BGM.py
 if [ -f "/home/pi/BGM.py" ]; #Remove old version if it is there
 then
 	sudo rm -f /home/pi/BGM.py
@@ -24,6 +26,8 @@ mkdir /home/pi/BGM/
 
 sudo cp BGM.png /home/pi/RetroPie/retropiemenu/icons/
 sudo chmod +x BGM_Toggle.sh
+sudo chown pi:pi BGM_Toggle.sh
+sudo chmod 0777 BGM_Toggle.sh
 if [ -f "/home/pi/RetroPie/retropiemenu/BGM_Toggle.sh" ]; #Remove old version if it is there
 then
 	sudo rm -f /home/pi/RetroPie/retropiemenu/BGM_Toggle.sh
@@ -52,4 +56,10 @@ printf "\n\n\n"
 echo "Place your music files in /home/pi/BGM/"
 echo "Edit /home/pi/BGM.py for more options!"
 echo "You will still have to set up the script to run automatically when the Pi boots!"
-echo "You can find out how to do this from the README.md file in the \"retropie_music_overlay\" folder or on the GitHub page."
+echo "Run \"sudo nano /etc/rc.local\" Near the bottom, on the line above \"exit 0\", put the following code
+
+(sudo python /home/pi/BGM.py) &
+
+Press Control+X, Y, and Enter to save changes. Reboot and enjoy!
+
+Example rc.local file: https://pastebin.com/67BnuB17"
