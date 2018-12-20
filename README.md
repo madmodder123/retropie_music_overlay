@@ -42,7 +42,11 @@ startsong = "" # if this is not blank, this is the EXACT, CaSeSeNsAtIvE filename
 <br>
 ###Overlay Config###
 
-overlay_enable = True
+overlay_enable = True # Enable or disable the overlay
+
+overlay_fade_out = True # Choose to hide the overlay after x time or have it always showing
+
+overlay_fade_out_time = 5 # Hide the overlay after X seconds
 
 overlay_pngview_location = '/usr/local/bin/pngview'
 
@@ -52,7 +56,7 @@ overlay_text_color = 'white'
 
 overlay_text_font = 'FreeSans'
 
-overlay_tmp_file = '/dev/shm/song_title.png'
+overlay_tmp_file = '/dev/shm/song_title.png
 
 overlay_size = '600x32'
 
