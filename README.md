@@ -44,7 +44,7 @@ startsong = "" # if this is not blank, this is the EXACT, CaSeSeNsAtIvE filename
 
 overlay_enable = True # Enable or disable the overlay
 
-overlay_fade_out = True # Choose to hide the overlay after x time or have it always showing
+overlay_fade_out = True # Change to "False" to have the overlay remain on the screen until an emulator/application is launched
 
 overlay_fade_out_time = 5 # Hide the overlay after X seconds
 
