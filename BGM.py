@@ -44,7 +44,7 @@ overlay_background_color = 'black'
 overlay_text_color = 'white'
 overlay_text_font = 'FreeSans'
 overlay_tmp_file = '/dev/shm/song_title.png'
-
+overlay_rounded_corners = False #Set to "True" round the corners of the overlay
 
 # The code below adjusts the size/location of the overlay depending upon the screen resolution
 # Adjust these to your needs
@@ -152,7 +152,10 @@ while True:
 		#####print "BGM Now Playing: " + song
 		song_title = re.sub(r"(" + musicdir + "/|\.\w*$)", "", song) # Remove directory and extension from song
 		if overlay_enable == True:
-			generate_image = "sudo convert -background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text
+			if overlay_rounded_corners == True:
+				generate_image = "sudo convert -alpha set -virtual-pixel transparent -channel A -blur 0x8 -threshold 50% +channel -background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text
+			else:
+				generate_image = "sudo convert -background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text
 			os.system(generate_image)
 			show_overlay = overlay_pngview_location + " -d 0 -b 0x0000 -l 15000 -y " + overlay_y_offset + " -x " + overlay_x_offset + " " + overlay_tmp_file + " &"
 			os.system(show_overlay)
