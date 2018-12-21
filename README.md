@@ -58,6 +58,8 @@ overlay_text_font = 'FreeSans'
 
 overlay_tmp_file = '/dev/shm/song_title.png
 
+overlay_rounded_corners = False #Set to "True" round the corners of the overlay
+
 overlay_size = '600x32'
 
 overlay_x_offset = '0'
