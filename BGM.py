@@ -61,7 +61,7 @@ else:
 	overlay_size = '150x15'
 	overlay_x_offset = '0'
 	overlay_y_offset = '0'
-
+	
 ###Local Variables###
 bgm = [mp3 for mp3 in os.listdir(musicdir) if mp3[-4:] == ".mp3" or mp3[-4:] == ".ogg"] # Find everything that's .mp3 or .ogg
 lastsong = -1
@@ -70,6 +70,11 @@ from pygame import mixer # import PyGame's music mixer
 mixer.init() # Prep that bad boy up.
 random.seed()
 volume = maxvolume # Store this for later use to handle fading out.
+
+if overlay_rounded_corners == True:
+	overlay_rounded = "-alpha set -virtual-pixel transparent -channel A -blur 0x8 -threshold 50% +channel " # Add code for rounded corners if eneabled.
+else:
+	overlay_rounded = "" # Add nothing to code if not enabled.
 
 # Create song_title.png if it doesn't exist
 if not os.path.exists('/dev/shm/song_title.png'):
@@ -152,10 +157,7 @@ while True:
 		#####print "BGM Now Playing: " + song
 		song_title = re.sub(r"(" + musicdir + "/|\.\w*$)", "", song) # Remove directory and extension from song
 		if overlay_enable == True:
-			if overlay_rounded_corners == True:
-				generate_image = "sudo convert -alpha set -virtual-pixel transparent -channel A -blur 0x8 -threshold 50% +channel -background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text
-			else:
-				generate_image = "sudo convert -background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text
+			generate_image = "sudo convert " + overlay_rounded + "-background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text
 			os.system(generate_image)
 			show_overlay = overlay_pngview_location + " -d 0 -b 0x0000 -l 15000 -y " + overlay_y_offset + " -x " + overlay_x_offset + " " + overlay_tmp_file + " &"
 			os.system(show_overlay)
