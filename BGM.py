@@ -12,7 +12,7 @@ import subprocess # used to grab screen resolution
 
 ###CONFIG SECTION###
 startdelay = 0 # Value (in seconds) to delay audio start.  If you have a splash screen with audio and the script is playing music over the top of it, increase this value to delay the script from starting.
-musicdir = '/home/pi/BGM'
+musicdir = '~/BGM' #(/home/pi/BGM on Raspberry Pi)
 maxvolume = 0.75
 volumefadespeed = 0.02
 restart = True # If true, this will cause the script to fade the music out and -stop- the song rather than pause it.
@@ -135,12 +135,12 @@ while True:
 				continue
 				
 	#Check to see if the DisableMusic file exists; if it does, stop doing everything!
-	if os.path.exists('/home/pi/DisableMusic'):
+	if os.path.exists('~/DisableMusic'):
 		###############DisableMusic found!
 		exit()
 		#if mixer.music.get_busy():
 			#mixer.music.stop();
-		#while (os.path.exists('/home/pi/DisableMusic')):
+		#while (os.path.exists('~/DisableMusic')):
 			#time.sleep(15)
 		#print "DisableMusic gone!"
 
