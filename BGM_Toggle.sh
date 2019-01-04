@@ -6,10 +6,10 @@
 
 if [ -f "/home/pi/DisableMusic" ]
 then
-	rm /home/pi/DisableMusic
-	(sudo python /home/pi/BGM.py) &
+	rm ~/DisableMusic
+	(sudo python ~/BGM.py) &
 else
-    echo -n "Hello" > /home/pi/DisableMusic
+    echo -n "Hello" > ~/DisableMusic
 	sudo pkill -f BGM.py
 	sudo pkill -f pngview
 fi
