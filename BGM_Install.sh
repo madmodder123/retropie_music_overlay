@@ -58,8 +58,8 @@ echo "Edit /home/pi/BGM.py for more options!"
 echo "You will still have to set up the script to run automatically when the Pi boots!"
 echo "Run \"sudo nano /etc/rc.local\" Near the bottom, on the line above \"exit 0\", put the following code
 
-python ~/BGM.py &
+su pi -c 'python ~/BGM.py &'
 
 Press Control+X, Y, and Enter to save changes. Reboot and enjoy!
 
-Example rc.local file: https://pastebin.com/cgHxKFuy"
+Example rc.local file: https://pastebin.com/ueWbuEKK"
