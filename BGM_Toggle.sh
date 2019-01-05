@@ -4,7 +4,7 @@
 # Lets the user enable/disable the background music
 #############################################
 
-if [ -f "/home/pi/DisableMusic" ]
+if [ -f "~/DisableMusic" ]
 then
 	rm ~/DisableMusic
 	(sudo python ~/BGM.py) &
