@@ -29,7 +29,7 @@ Edit these to adjust the script to your needs:
 
 startdelay = 0 # Value (in seconds) to delay audio start.  If you have a splash screen with audio and the script is playing music over the top of it, increase this value to delay the script from starting.
 
-musicdir = '~/BGM' # "~/" is the equivalent to "/home/pi"
+musicdir = '~/BGM'
 
 maxvolume = 0.75
 
