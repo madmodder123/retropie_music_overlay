@@ -12,12 +12,16 @@ import subprocess # used to grab screen resolution
 
 ###CONFIG SECTION###
 startdelay = 0 # Value (in seconds) to delay audio start.  If you have a splash screen with audio and the script is playing music over the top of it, increase this value to delay the script from starting.
-musicdir = '~/BGM' #(/home/pi/BGM on Raspberry Pi)
+musicdir = '~/BGM' # "~/" is the equivalent to "/home/pi"
 maxvolume = 0.75
 volumefadespeed = 0.02
 restart = True # If true, this will cause the script to fade the music out and -stop- the song rather than pause it.
 startsong = "" # if this is not blank, this is the EXACT, CaSeSeNsAtIvE filename of the song you always want to play first on boot.
 
+### if ~ is used, change it to home directory (EXAMPLE: "~/BGM" to "/home/pi/BGM")
+if "~/" in musicdir:
+	musicdir = os.path.expanduser(musicdir)
+	
 # Read screen resolution for overlay settings
 screen_width = subprocess.check_output("tvservice -s | grep -m 1 -o '[0-9][0-9][0-9]\+x[0-9][0-9][0-9]\+' | grep -m 1 -o '[0-9][0-9][0-9]\+x' | grep -m 1 -o '[0-9][0-9][0-9]\+'", shell=True)
 screen_width = screen_width.rstrip() # remove extra lines
