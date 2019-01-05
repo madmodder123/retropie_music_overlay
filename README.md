@@ -1,5 +1,5 @@
 This has all the files needed to install the background music script with added overlays!
-Just make the bash script executable with "sudo chmod +x BGM_Install.sh" and run it as root ("sudo ./BGM_Install.sh") and it will do the following:
+Just make the bash script executable with "sudo chmod +x BGM_Install.sh" and run it (NOT AS ROOT!!!) ("./BGM_Install.sh") and it will do the following:
 
 Download/install python-pygame and imagemagick.
 
@@ -15,12 +15,12 @@ Pictures here: https://imgur.com/a/J9iek
 Run "sudo nano /etc/rc.local"
 Near the bottom, on the line above "exit 0", put the following code
 
-    (sudo python /home/pi/BGM.py) &
+    python ~/BGM.py &
 
 Press Control+X, Y, and Enter to save changes.
 Reboot and enjoy!</b>
 
-Example rc.local file: https://pastebin.com/67BnuB17
+Example rc.local file: https://pastebin.com/cgHxKFuy
 
 <br><br>
 Edit these to adjust the script to your needs:
