@@ -139,15 +139,11 @@ while True:
 				continue
 				
 	#Check to see if the DisableMusic file exists; if it does, stop doing everything!
-	if os.path.exists('~/DisableMusic'):
+	disablefile = os.path.expanduser('~/DisableMusic')
+	if os.path.exists(disablefile):
 		###############DisableMusic found!
 		exit()
-		#if mixer.music.get_busy():
-			#mixer.music.stop();
-		#while (os.path.exists('~/DisableMusic')):
-			#time.sleep(15)
-		#print "DisableMusic gone!"
-
+		
 	if not mixer.music.get_busy(): # We aren't currently playing any music
 		while currentsong == lastsong and len(bgm) > 1:	#If we have more than one BGM, choose a new one until we get one that isn't what we just played.
 			currentsong = random.randint(0,len(bgm)-1)
