@@ -15,12 +15,12 @@ Pictures here: https://imgur.com/a/J9iek
 Run "sudo nano /etc/rc.local"
 Near the bottom, on the line above "exit 0", put the following code
 
-    python ~/BGM.py &
+     su pi -c 'python ~/BGM.py &'
 
 Press Control+X, Y, and Enter to save changes.
 Reboot and enjoy!</b>
 
-Example rc.local file: https://pastebin.com/cgHxKFuy
+Example rc.local file: https://pastebin.com/ueWbuEKK
 
 <br><br>
 Edit these to adjust the script to your needs:
@@ -29,7 +29,7 @@ Edit these to adjust the script to your needs:
 
 startdelay = 0 # Value (in seconds) to delay audio start.  If you have a splash screen with audio and the script is playing music over the top of it, increase this value to delay the script from starting.
 
-musicdir = '/home/pi/BGM'
+musicdir = '~/BGM' # "~/" is the equivalent to "/home/pi"
 
 maxvolume = 0.75
 
