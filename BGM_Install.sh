@@ -62,4 +62,4 @@ python ~/BGM.py &
 
 Press Control+X, Y, and Enter to save changes. Reboot and enjoy!
 
-Example rc.local file: https://pastebin.com/67BnuB17"
+Example rc.local file: https://pastebin.com/cgHxKFuy"
