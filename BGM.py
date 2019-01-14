@@ -21,13 +21,25 @@ startsong = "" # if this is not blank, this is the EXACT, CaSeSeNsAtIvE filename
 ### if ~ is used, change it to home directory (EXAMPLE: "~/BGM" to "/home/pi/BGM")
 if "~/" in musicdir:
 	musicdir = os.path.expanduser(musicdir)
-	
-# Read screen resolution for overlay settings
-screen_width = subprocess.check_output("tvservice -s | grep -m 1 -o '[0-9][0-9][0-9]\+x[0-9][0-9][0-9]\+' | grep -m 1 -o '[0-9][0-9][0-9]\+x' | grep -m 1 -o '[0-9][0-9][0-9]\+'", shell=True)
-screen_width = screen_width.rstrip() # remove extra lines
 
-screen_height = subprocess.check_output("tvservice -s | grep -m 1 -o '[0-9][0-9][0-9]\+x[0-9][0-9][0-9]\+' | grep -m 1 -o 'x[0-9][0-9][0-9]\+' | grep -m 1 -o '[0-9][0-9][0-9]\+'", shell=True)
-screen_height = screen_height.rstrip() # remove extra lines
+# Read screen resolution for overlay settings
+fbset_exists = os.path.isfile('/bin/fbset')
+tvservice_exists = os.path.isfile('/usr/bin/tvservice')
+
+if fbset_exists:
+	screen_width = subprocess.check_output("fbset -fb /dev/fb0 | grep '\".*\"' | grep -m 1 -o '[0-9][0-9][0-9]\+x' | tr -d 'x'", shell=True)
+	screen_width = screen_width.rstrip() # remove extra lines
+	screen_height = subprocess.check_output("fbset -fb /dev/fb0 | grep '\".*\"' | grep -m 1 -o 'x[0-9][0-9][0-9]\+' | tr -d 'x'", shell=True)
+	screen_height = screen_height.rstrip() # remove extra lines
+elif tvservice_exists:
+	screen_width = subprocess.check_output("tvservice -s | grep -m 1 -o '[0-9][0-9][0-9]\+x[0-9][0-9][0-9]\+' | grep -m 1 -o '[0-9][0-9][0-9]\+x' | grep -m 1 -o '[0-9][0-9][0-9]\+'", shell=True)
+	screen_width = screen_width.rstrip() # remove extra lines
+	screen_height = subprocess.check_output("tvservice -s | grep -m 1 -o '[0-9][0-9][0-9]\+x[0-9][0-9][0-9]\+' | grep -m 1 -o 'x[0-9][0-9][0-9]\+' | grep -m 1 -o '[0-9][0-9][0-9]\+'", shell=True)
+	screen_height = screen_height.rstrip() # remove extra lines
+else:
+    print "ERROR COUDLN'T FIND FBSET OR TVSERVICE!"
+
+# print screen_width + " " + screen_height
 
 if int(screen_height) >= 900:
 	resolution = "1080p"
