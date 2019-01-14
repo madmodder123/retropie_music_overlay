@@ -4,7 +4,7 @@
 # Install background music + overlay
 #############################################
 
-sudo apt-get install python-pygame imagemagick
+sudo apt-get install python-pygame imagemagick fbi
 cd ~
 if [ -d "~/retropie_music_overlay" ]; #delete folder if it is there
 then
