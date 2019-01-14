@@ -19,8 +19,9 @@ Near the bottom, on the line above "exit 0", put the following code
 
 Press Control+X, Y, and Enter to save changes.
 Reboot and enjoy!</b>
+(Note: you must change "pi" to "pigaming" if you are running RetroPie on an ODROID!)
 
-Example rc.local file: https://pastebin.com/ueWbuEKK
+Example rc.local file: https://pastebin.com/E8NvrJJ1
 
 <br><br>
 Edit these to adjust the script to your needs:
