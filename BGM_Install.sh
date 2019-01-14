@@ -15,6 +15,7 @@ echo $currentuser
 # Sets video
 if [[ $currentuser == "root" ]]; then
 echo "DON'T RUN THIS SCRIPT AS ROOT! USE './BGM_Install.sh' !"
+exit
 fi
 
 git clone https://github.com/madmodder123/retropie_music_overlay.git
