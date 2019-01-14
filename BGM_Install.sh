@@ -66,4 +66,4 @@ echo "su $currentuser -c 'python ~/BGM.py &'
 
 Press Control+X, Y, and Enter to save changes. Reboot and enjoy!
 
-Example rc.local file: https://pastebin.com/ueWbuEKK"
+Example rc.local file: https://pastebin.com/E8NvrJJ1"
