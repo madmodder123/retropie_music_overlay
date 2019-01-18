@@ -97,7 +97,7 @@ if not os.path.exists('/dev/shm/song_title.png'):
     os.mknod('/dev/shm/song_title.png')
 
 #TODO: Fill in all of the current RetroPie Emulator process names in this list.
-emulatornames = ["retroarch","ags","uae4all2","uae4arm","capricerpi","linapple","hatari","stella","atari800","xroar","vice","daphne","reicast","pifba","osmose","gpsp","jzintv","basiliskll","mame","advmame","dgen","openmsx","mupen64plus","gngeo","dosbox","ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","openttd","opentyrian","cannonball","tyrquake","ioquake3","residualvm","xrick","sdlpop","uqm","stratagus","wolf4sdl","solarus","drastic","coolcv","PPSSPPSDL","moonlight","Xorg","smw","omxplayer.bin","wolf4sdl-3dr-v14","wolf4sdl-gt-v14","wolf4sdl-spear","wolf4sdl-sw-v14","xvic","xvic cart","xplus4","xpet","x128","x64sc","x64","prince","fba2x"]
+emulatornames = ["retroarch","ags","uae4all2","uae4arm","capricerpi","linapple","hatari","stella","atari800","xroar","vice","daphne","reicast","pifba","osmose","gpsp","jzintv","basiliskll","mame","advmame","dgen","openmsx","mupen64plus","gngeo","dosbox","ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","openttd","opentyrian","cannonball","tyrquake","ioquake3","residualvm","xrick","sdlpop","uqm","stratagus","wolf4sdl","solarus","drastic","coolcv","PPSSPPSDL","moonlight","Xorg","smw","omxplayer.bin","wolf4sdl-3dr-v14","wolf4sdl-gt-v14","wolf4sdl-spear","wolf4sdl-sw-v14","xvic","xvic cart","xplus4","xpet","x128","x64sc","x64","prince","fba2x","steamlink"]
 
 #test: Ran into some issues with script crashing on a cold boot, so we're camping for emulationstation (if ES can start, so can we!)
 esStarted = False
@@ -159,7 +159,7 @@ while True:
 			#mixer.music.stop();
 		#while (os.path.exists('~/DisableMusic')):
 			#time.sleep(15)
-		#print "DisableMusic gone!"
+		#####print "DisableMusic gone!"
 
 	if not mixer.music.get_busy(): # We aren't currently playing any music
 		while currentsong == lastsong and len(bgm) > 1:	#If we have more than one BGM, choose a new one until we get one that isn't what we just played.
