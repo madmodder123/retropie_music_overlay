@@ -101,7 +101,7 @@ else:
 
 ## ~~~~~~~~~ODROID OGST SETTINGS~~~~~~~~~~~~~~~~~~
 if OGST_exists == True:
-	overlay_size = '320x160' # Change me to adjust overlay size (ONLY FOR OGST CASE!)
+	overlay_size = '320x240' # Change me to adjust overlay size (ONLY FOR OGST CASE!) [OGST SCREEN IS 320x240]
 	overlay_rounded_corners = True
 
 if overlay_rounded_corners == True:
