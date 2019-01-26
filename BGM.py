@@ -58,7 +58,7 @@ overlay_fade_out_time = 8 # Hide the overlay after X seconds
 overlay_pngview_location = '/usr/local/bin/pngview'
 overlay_background_color = 'white'
 overlay_text_color = 'DimGray'
-overlay_text_font = 'HardPixel'
+overlay_text_font = 'Pixel'
 overlay_rounded_corners = False #Set to "True" round the corners of the overlay
 overlay_replace_newline = True # Set to "True" to turn all " - " symbols in song title to new line characters. (Mostly for OGST Display)
 
@@ -78,6 +78,28 @@ else:
 	overlay_x_offset = '0'
 	overlay_y_offset = '0'
 
+# Get the user's name
+user = os.path.expanduser('~')          
+user = os.path.split(user)[-1]  
+if user == "pi":
+	HOST_SYSTEM = "Raspberry Pi"
+elif user == "pigaming":
+	HOST_SYSTEM = "ODROID"
+	#Check if the OGST case is being used (ODROID ONLY)
+	OGST_exists = os.path.exists('/dev/fb1')
+else:
+	HOST_SYSTEM = "Linux"
+
+## ~~~~~~~~~ODROID OGST SETTINGS~~~~~~~~~~~~~~~~~~
+if OGST_exists == True:
+	overlay_size = '320x160' # Change me to adjust overlay size (ONLY FOR OGST CASE!)
+	overlay_rounded_corners = True
+
+if overlay_rounded_corners == True:
+	overlay_rounded = "-alpha set -virtual-pixel transparent -channel A -blur 0x8 -threshold 50% +channel " # Add code for rounded corners if eneabled.
+else:
+	overlay_rounded = "" # Add nothing to code if not enabled.
+	
 ###Local Variables###
 bgm = [mp3 for mp3 in os.listdir(musicdir) if mp3[-4:] == ".mp3" or mp3[-4:] == ".ogg"] # Find everything that's .mp3 or .ogg
 lastsong = -1
@@ -99,30 +121,6 @@ else:
 # Create song_title.png if it doesn't exist
 if not os.path.exists(overlay_tmp_file):
     os.mknod(overlay_tmp_file)
-
-# Get the user's name
-user = os.path.expanduser('~')          
-user = os.path.split(user)[-1]  
-if user == "pi":
-	HOST_SYSTEM = "Raspberry Pi"
-elif user == "pigaming":
-	HOST_SYSTEM = "ODROID"
-	#Check if the OGST case is being used (ODROID ONLY)
-	OGST_exists = os.path.exists('/dev/fb1')
-	#Old code:
-	#ogstdir = os.path.expanduser("~/ogst")
-	#OGST_exists = os.path.isdir(ogstdir)
-else:
-	HOST_SYSTEM = "Linux"
-
-if OGST_exists == True:
-	overlay_size = '320x160' # Change me to adjust overlay size (ONLY FOR OGST CASE!)
-	overlay_rounded_corners = True
-
-if overlay_rounded_corners == True:
-	overlay_rounded = "-alpha set -virtual-pixel transparent -channel A -blur 0x8 -threshold 50% +channel " # Add code for rounded corners if eneabled.
-else:
-	overlay_rounded = "" # Add nothing to code if not enabled.
 
 #TODO: Fill in all of the current RetroPie Emulator process names in this list.
 emulatornames = ["retroarch","ags","uae4all2","uae4arm","capricerpi","linapple","hatari","stella","atari800","xroar","vice","daphne","reicast","pifba","osmose","gpsp","jzintv","basiliskll","mame","advmame","dgen","openmsx","mupen64plus","gngeo","dosbox","ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","openttd","opentyrian","cannonball","tyrquake","ioquake3","residualvm","xrick","sdlpop","uqm","stratagus","wolf4sdl","solarus","drastic","coolcv","PPSSPPSDL","moonlight","Xorg","smw","omxplayer.bin","wolf4sdl-3dr-v14","wolf4sdl-gt-v14","wolf4sdl-spear","wolf4sdl-sw-v14","xvic","xvic cart","xplus4","xpet","x128","x64sc","x64","prince","fba2x","steamlink","pcsx-rearmed","limelight","sdltrs","ti99sm","dosbox-sdl2","minivmac","quasi88","xm7","yabause","abuse","cdogs-sdl","cgenius","digger","gemrb","hcl","love","love-0.10.2","openblok","openfodder","srb2","yquake2","amiberry","zesarux","dxx-rebirth","zesarux"]
