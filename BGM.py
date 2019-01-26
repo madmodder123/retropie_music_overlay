@@ -9,7 +9,7 @@ import random
 #also that line is commented out as we import the mixer specifically a bit further down.
 import re
 import subprocess # used to grab screen resolution
-
+	
 ###CONFIG SECTION###
 startdelay = 0 # Value (in seconds) to delay audio start.  If you have a splash screen with audio and the script is playing music over the top of it, increase this value to delay the script from starting.
 musicdir = '~/BGM' # "~/" is the equivalent to "/home/pi"
@@ -37,7 +37,7 @@ elif tvservice_exists:
 	screen_height = subprocess.check_output("tvservice -s | grep -m 1 -o '[0-9][0-9][0-9]\+x[0-9][0-9][0-9]\+' | grep -m 1 -o 'x[0-9][0-9][0-9]\+' | grep -m 1 -o '[0-9][0-9][0-9]\+'", shell=True)
 	screen_height = screen_height.rstrip() # remove extra lines
 else:
-    print "ERROR COUDLN'T FIND FBSET OR TVSERVICE!"
+    print "ERROR COUDLN'T FIND FBSET OR TVSERVICE! Please contact madmodder123 for help!"
 
 # print screen_width + " " + screen_height
 
@@ -56,11 +56,11 @@ overlay_enable = True # Enable or disable the overlay
 overlay_fade_out = True # Change to "False" to have the overlay remain on the screen until an emulator/application is launched
 overlay_fade_out_time = 8 # Hide the overlay after X seconds
 overlay_pngview_location = '/usr/local/bin/pngview'
-overlay_background_color = 'black'
-overlay_text_color = 'white'
-overlay_text_font = 'FreeSans'
-overlay_tmp_file = '/dev/shm/song_title.png'
+overlay_background_color = 'white'
+overlay_text_color = 'DimGray'
+overlay_text_font = 'HardPixel'
 overlay_rounded_corners = False #Set to "True" round the corners of the overlay
+overlay_replace_newline = True # Set to "True" to turn all " - " symbols in song title to new line characters. (Mostly for OGST Display)
 
 # The code below adjusts the size/location of the overlay depending upon the screen resolution
 # Adjust these to your needs
@@ -77,7 +77,7 @@ else:
 	overlay_size = '150x15'
 	overlay_x_offset = '0'
 	overlay_y_offset = '0'
-	
+
 ###Local Variables###
 bgm = [mp3 for mp3 in os.listdir(musicdir) if mp3[-4:] == ".mp3" or mp3[-4:] == ".ogg"] # Find everything that's .mp3 or .ogg
 lastsong = -1
@@ -86,15 +86,43 @@ from pygame import mixer # import PyGame's music mixer
 mixer.init() # Prep that bad boy up.
 random.seed()
 volume = maxvolume # Store this for later use to handle fading out.
+OGST_exists = False # Don't change this.
+
+shm_exists = os.path.isdir('/dev/shm') 
+if shm_exists == True:
+	overlay_tmp_file = '/dev/shm/song_title.png'
+	tmp_folder= '/dev/shm/'
+else:
+	overlay_tmp_file = '/tmp/song_title.png'
+	tmp_folder= '/tmp/'
+
+# Create song_title.png if it doesn't exist
+if not os.path.exists(overlay_tmp_file):
+    os.mknod(overlay_tmp_file)
+
+# Get the user's name
+user = os.path.expanduser('~')          
+user = os.path.split(user)[-1]  
+if user == "pi":
+	HOST_SYSTEM = "Raspberry Pi"
+elif user == "pigaming":
+	HOST_SYSTEM = "ODROID"
+	#Check if the OGST case is being used (ODROID ONLY)
+	OGST_exists = os.path.exists('/dev/fb1')
+	#Old code:
+	#ogstdir = os.path.expanduser("~/ogst")
+	#OGST_exists = os.path.isdir(ogstdir)
+else:
+	HOST_SYSTEM = "Linux"
+
+if OGST_exists == True:
+	overlay_size = '320x160' # Change me to adjust overlay size (ONLY FOR OGST CASE!)
+	overlay_rounded_corners = True
 
 if overlay_rounded_corners == True:
 	overlay_rounded = "-alpha set -virtual-pixel transparent -channel A -blur 0x8 -threshold 50% +channel " # Add code for rounded corners if eneabled.
 else:
 	overlay_rounded = "" # Add nothing to code if not enabled.
-
-# Create song_title.png if it doesn't exist
-if not os.path.exists('/dev/shm/song_title.png'):
-    os.mknod('/dev/shm/song_title.png')
 
 #TODO: Fill in all of the current RetroPie Emulator process names in this list.
 emulatornames = ["retroarch","ags","uae4all2","uae4arm","capricerpi","linapple","hatari","stella","atari800","xroar","vice","daphne","reicast","pifba","osmose","gpsp","jzintv","basiliskll","mame","advmame","dgen","openmsx","mupen64plus","gngeo","dosbox","ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","openttd","opentyrian","cannonball","tyrquake","ioquake3","residualvm","xrick","sdlpop","uqm","stratagus","wolf4sdl","solarus","drastic","coolcv","PPSSPPSDL","moonlight","Xorg","smw","omxplayer.bin","wolf4sdl-3dr-v14","wolf4sdl-gt-v14","wolf4sdl-spear","wolf4sdl-sw-v14","xvic","xvic cart","xplus4","xpet","x128","x64sc","x64","prince","fba2x","steamlink","pcsx-rearmed","limelight","sdltrs","ti99sm","dosbox-sdl2","minivmac","quasi88","xm7","yabause","abuse","cdogs-sdl","cgenius","digger","gemrb","hcl","love","love-0.10.2","openblok","openfodder","srb2","yquake2","amiberry","zesarux","dxx-rebirth","zesarux"]
@@ -116,7 +144,7 @@ while not esStarted:
 
 if startdelay > 0:
 	time.sleep(startdelay) # Delay audio start per config option above
-	
+
 #Look for OMXplayer - if it's running, someone's got a splash screen going!
 pids = [pid for pid in os.listdir('/proc') if pid.isdigit()]
 for pid in pids:
@@ -127,7 +155,7 @@ for pid in pids:
 				time.sleep(1) #OMXPlayer is running, sleep 1 to prevent the need for a splash.
 	except IOError:	
 		continue
-		
+
 #Check for a starting song
 if not startsong == "":
 	try:
@@ -155,11 +183,6 @@ while True:
 	if os.path.exists(disablefile):
 		###############DisableMusic found!
 		exit()
-		#if mixer.music.get_busy():
-			#mixer.music.stop();
-		#while (os.path.exists('~/DisableMusic')):
-			#time.sleep(15)
-		#####print "DisableMusic gone!"
 
 	if not mixer.music.get_busy(): # We aren't currently playing any music
 		while currentsong == lastsong and len(bgm) > 1:	#If we have more than one BGM, choose a new one until we get one that isn't what we just played.
@@ -173,14 +196,27 @@ while True:
 		mixer.music.play()
 		#####print "BGM Now Playing: " + song
 		song_title = re.sub(r"(" + musicdir + "/|\.\w*$)", "", song) # Remove directory and extension from song
+		if overlay_replace_newline == True:
+			song_title = song_title.replace(" - ","\n")
 		if overlay_enable == True:
-			generate_image = "sudo convert " + overlay_rounded + "-background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text ( -n cmd doesn't seem to work)
-			os.system(generate_image)
-			show_overlay = overlay_pngview_location + " -d 0 -b 0x0000 -l 15000 -y " + overlay_y_offset + " -x " + overlay_x_offset + " " + overlay_tmp_file + " &"
-			os.system(show_overlay)
-			if overlay_fade_out == True:
-				time.sleep(overlay_fade_out_time)
-				os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay
+			if HOST_SYSTEM == "Raspberry Pi":
+				generate_image = "sudo convert " + overlay_rounded + "-background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text 
+				os.system(generate_image)
+				show_overlay = overlay_pngview_location + " -d 0 -b 0x0000 -l 15000 -y " + overlay_y_offset + " -x " + overlay_x_offset + " " + overlay_tmp_file + " &" # ( -n cmd doesn't seem to work)
+				os.system(show_overlay)
+				if overlay_fade_out == True:
+					time.sleep(overlay_fade_out_time)
+					os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay
+			else:
+				#ODROID or other system
+				generate_image = "sudo convert " + overlay_rounded + "-background " + overlay_background_color + " -fill " + overlay_text_color + " -font " + overlay_text_font + " -gravity center -size " + overlay_size + " label:\"" + song_title + "\" " + overlay_tmp_file # Generate png from text
+				os.system(generate_image)
+				if OGST_exists == True:
+					#OGST SCREEN
+					OGST_display_code = "cat /dev/fb1 > " + tmp_folder + "image.raw; img2fb -i " + overlay_tmp_file + "; sleep " + str(overlay_fade_out_time) + "; cat " + tmp_folder + "image.raw > /dev/fb1"
+					os.system(OGST_display_code) 
+				else:
+					print "framebuffer write"
 		
 	#Emulator check
 	pids = [pid for pid in os.listdir('/proc') if pid.isdigit()] 
