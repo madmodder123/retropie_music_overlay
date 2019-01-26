@@ -5,8 +5,7 @@
 #############################################
 
 ##### Install needed packages
-sudo apt-get install imagemagick # to generate overlays
-sudo apt-get install fbi #
+sudo apt-get install imagemagick fbi # to generate overlays
 if sudo apt-get --simulate install python-pygame
 then 
 	sudo apt-get install python-pygame # to control music
