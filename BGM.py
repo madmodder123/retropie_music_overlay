@@ -56,9 +56,10 @@ overlay_enable = True # Enable or disable the overlay
 overlay_fade_out = True # Change to "False" to have the overlay remain on the screen until an emulator/application is launched
 overlay_fade_out_time = 8 # Hide the overlay after X seconds
 overlay_pngview_location = '/usr/local/bin/pngview'
-overlay_background_color = 'white'
-overlay_text_color = 'DimGray'
-overlay_text_font = 'Pixel'
+overlay_background_color = 'Blue' #White
+overlay_text_color = 'White' #DimGray
+overlay_text_font = '/usr/share/fonts/opentype/Pixel.otf' # Pixel font included by default
+# overlay_text_font = 'FreeSans' # Default system font
 overlay_rounded_corners = False #Set to "True" round the corners of the overlay
 overlay_replace_newline = True # Set to "True" to turn all " - " symbols in song title to new line characters. (Mostly for OGST Display)
 
@@ -81,12 +82,17 @@ else:
 # Get the user's name
 user = os.path.expanduser('~')          
 user = os.path.split(user)[-1]  
+OGST_exists = False # Don't change this. It will automatically detect if OGST is used.
 if user == "pi":
 	HOST_SYSTEM = "Raspberry Pi"
 elif user == "pigaming":
 	HOST_SYSTEM = "ODROID"
 	#Check if the OGST case is being used (ODROID ONLY)
-	OGST_exists = os.path.exists('/dev/fb1')
+	framebuffer1_exists = os.path.exists('/dev/fb1')
+	ogstdir = os.path.expanduser("~/ogst")
+	OGST_dir_exists = os.path.isdir(ogstdir)
+	if framebuffer1_exists == OGST_dir_exists == True:
+		OGST_exists = True
 else:
 	HOST_SYSTEM = "Linux"
 
@@ -99,7 +105,7 @@ if overlay_rounded_corners == True:
 	overlay_rounded = "-alpha set -virtual-pixel transparent -channel A -blur 0x8 -threshold 50% +channel " # Add code for rounded corners if eneabled.
 else:
 	overlay_rounded = "" # Add nothing to code if not enabled.
-	
+
 ###Local Variables###
 bgm = [mp3 for mp3 in os.listdir(musicdir) if mp3[-4:] == ".mp3" or mp3[-4:] == ".ogg"] # Find everything that's .mp3 or .ogg
 lastsong = -1
@@ -108,7 +114,6 @@ from pygame import mixer # import PyGame's music mixer
 mixer.init() # Prep that bad boy up.
 random.seed()
 volume = maxvolume # Store this for later use to handle fading out.
-OGST_exists = False # Don't change this.
 
 shm_exists = os.path.isdir('/dev/shm') 
 if shm_exists == True:
@@ -188,7 +193,8 @@ while True:
 		song = os.path.join(musicdir,bgm[currentsong])
 		mixer.music.load(song)
 		if overlay_enable == True :
-			os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay
+			if HOST_SYSTEM == "Raspberry Pi":
+				os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay
 		lastsong=currentsong
 		mixer.music.set_volume(maxvolume) # Pygame sets this to 1.0 on new song; in case max volume -isnt- 1, set it to max volume.
 		mixer.music.play()
@@ -231,7 +237,8 @@ while True:
 				#Turn down the music
 				######print "Emulator found! " + procname[:-1] + " Muting the music..."
 				if overlay_enable == True:
-					os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay
+					if HOST_SYSTEM == "Raspberry Pi":
+						os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay
 				while volume > 0:
 					volume = volume - volumefadespeed
 					if volume < 0:
@@ -256,10 +263,11 @@ while True:
 						mixer.music.set_volume(volume);
 						time.sleep(0.05)
 					if overlay_enable == True:
-						os.system(show_overlay) # Display generated PNG
-						if overlay_fade_out == True:
-							time.sleep(overlay_fade_out_time)
-							os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay	
+						if HOST_SYSTEM == "Raspberry Pi":
+							os.system(show_overlay) # Display generated PNG
+							if overlay_fade_out == True:
+								time.sleep(overlay_fade_out_time)
+								os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay	
 				######print "Restored."
 				volume=maxvolume # ensures that the volume is manually set (if restart is True, volume would be at zero)
 		except IOError: #proc has already terminated, ignore.

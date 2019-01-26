@@ -5,10 +5,23 @@
 #############################################
 
 ##### Install needed packages
-sudo apt-get install python-pygame imagemagick fbi
+sudo apt-get install imagemagick # to generate overlays
+sudo apt-get install fbi #
+if sudo apt-get --simulate install python-pygame
+then 
+	sudo apt-get install python-pygame # to control music
+else
+	echo "
+
+Unable to install python-pygame, please update your system (\"sudo apt-get upgrade && sudo apt-get update\") and then try running this script again!
+	
+	"
+	exit
+fi
+
 cd ~
 if [ -d "~/retropie_music_overlay" ]; then #delete folder if it is there
-	rm -r ~/retropie_music_overlay
+	sudo rm -r ~/retropie_music_overlay
 fi
 
 currentuser=$(whoami) # Check user and then stop the script if root
@@ -26,10 +39,11 @@ if [[ $currentuser == "pi" ]]; then #Use pngview if using Raspberry Pi
 elif [[ $currentuser == "pigaming" ]]; then
 	sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev # Install ODROID stuff
 	git clone https://github.com/AreaScout/Gaming-Kit-Tools.git
-	cd ~/Gaming-Kit-Tools
+	cd ~/retropie_music_overlay/Gaming-Kit-Tools
 	make
 	sudo make install
 fi
+cd ~/retropie_music_overlay/
 sudo chmod +x BGM.py
 sudo chown $currentuser:$currentuser BGM.py
 sudo chmod 0777 BGM.py
@@ -37,36 +51,42 @@ if [ -f "~/BGM.py" ]; then #Remove old version if it is there
 	rm -f ~/BGM.py
 fi
 cp BGM.py ~/
-mkdir ~/BGM/
+mkdir -p ~/BGM/
+
+##### Add pixel font
+sudo mkdir -p /usr/share/fonts/opentype
+sudo cp Pixel.otf /usr/share/fonts/opentype/
 
 ##### Add menu option to toggle BGM
 cp BGM.png ~/RetroPie/retropiemenu/icons/
 sudo chmod +x BGM_Toggle.sh
 sudo chown $currentuser:$currentuser BGM_Toggle.sh
 sudo chmod 0777 BGM_Toggle.sh
-if [ -f "~/RetroPie/retropiemenu/BGM_Toggle.sh" ]; #Remove old version if it is there
+if [ -f "~/RetroPie/retropiemenu/BGM_Toggle.sh" ]; # Remove old version if it is there
 then
-	rm -f ~/RetroPie/retropiemenu/BGM_Toggle.sh
+	sudo rm -f ~/RetroPie/retropiemenu/BGM_Toggle.sh
 fi
 cp BGM_Toggle.sh ~/RetroPie/retropiemenu/
 
-if [ ! -s ~/RetroPie/retropiemenu/gamelist.xml ] #Remove gamelist.xml if file size is 0
+if [ ! -s ~/RetroPie/retropiemenu/gamelist.xml ] # Remove gamelist.xml if file size is 0
 then
-	rm -f ~/RetroPie/retropiemenu/gamelist.xml
+	sudo rm -f ~/RetroPie/retropiemenu/gamelist.xml
 fi
-if [ ! -f "~/RetroPie/retropiemenu/gamelist.xml" ]; #If file doesn't exist, copy gamelist.xml to folder
+if [ ! -f "~/RetroPie/retropiemenu/gamelist.xml" ]; # If file doesn't exist, copy gamelist.xml to folder
 then
 	cp /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml ~/RetroPie/retropiemenu/gamelist.xml
 fi
 CONTENT="<game>\n<path>./BGM_Toggle.sh</path>\n<name>Background Music</name>\n<desc>Toggles background music ON/OFF.</desc>\n<image>./icons/BGM.png</image>\n</game>"
 C=$(echo $CONTENT | sed 's/\//\\\//g')
-if grep -q BGM_Toggle.sh "~/RetroPie/retropiemenu/gamelist.xml"; then #Check if menu entry is already there or not
+if grep -q BGM_Toggle.sh "/home/$currentuser/RetroPie/retropiemenu/gamelist.xml"; then # Check if menu entry is already there or not
 	echo "gamelist.xml entry confirmed"
 else
 	sed "/<\/gameList>/ s/.*/${C}\n&/" ~/RetroPie/retropiemenu/gamelist.xml > ~/temp
 	cat ~/temp > ~/RetroPie/retropiemenu/gamelist.xml
-	rm -f ~/temp #yeah if you are reading this, you probably can see how ghetto that edit is^^ xD
+	rm -f ~/temp # yeah if you are reading this, you probably can see how ghetto that edit is^^ xD
 fi
+
+sudo rm -r ~/retropie_music_overlay
 
 ##### Explain stuff to the user
 printf "\n\n\n"
