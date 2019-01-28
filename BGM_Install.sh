@@ -87,6 +87,12 @@ fi
 
 sudo rm -r ~/retropie_music_overlay
 
+##### Disable ODROID BGM script if it exists
+if [ -a ~/scripts/bgm/start.sc ]; then
+	pkill -STOP mpg123
+	sudo rm ~/scripts/bgm/start.sc
+fi
+
 ##### Explain stuff to the user
 printf "\n\n\n"
 echo "Place your music files in /home/$currentuser/BGM/"

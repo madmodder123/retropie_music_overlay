@@ -6,12 +6,16 @@
 
 if [ -f ~/DisableMusic ]
 then
-	rm ~/DisableMusic
+	# Enabled
+	sudo rm ~/DisableMusic
 	python ~/BGM.py &
-	#echo "Enabled"
+	echo -e "\n\n\n                               Background Music Enabled!\n\n\n"
+    sleep 3
 else
-    echo -n "Hello" > ~/DisableMusic
+    #Disabled
+	touch ~/DisableMusic
 	sudo pkill -f BGM.py
 	sudo pkill -f pngview
-	#echo "Disabled"
+	echo -e "\n\n\n                               Background Music Disabled!\n\n\n"
+    sleep 3
 fi
