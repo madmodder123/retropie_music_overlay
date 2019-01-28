@@ -50,7 +50,16 @@ if [ -f "~/BGM.py" ]; then #Remove old version if it is there
 	rm -f ~/BGM.py
 fi
 cp BGM.py ~/
-mkdir -p ~/BGM/
+
+##### Change bgm to BGM if folder exists or create it if it doesn't
+if [ -d ~/BGM/ ]; then
+	sudo mv ~/bgm ~/BGM
+else
+	sudo mkdir -p ~/BGM/
+fi
+
+
+
 
 ##### Add pixel font
 sudo mkdir -p /usr/share/fonts/opentype
