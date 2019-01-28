@@ -4,6 +4,12 @@
 # Install background music + overlay
 #############################################
 
+currentuser=$(whoami) # Check user and then stop the script if root
+if [[ $currentuser == "root" ]]; then
+	echo "DON'T RUN THIS SCRIPT AS ROOT! USE './BGM_Install.sh' !"
+	exit
+fi
+
 ##### Install needed packages
 sudo apt-get install imagemagick fbi # to generate overlays
 if sudo apt-get --simulate install python-pygame
@@ -21,12 +27,6 @@ fi
 cd ~
 if [ -d "~/retropie_music_overlay" ]; then #delete folder if it is there
 	sudo rm -r ~/retropie_music_overlay
-fi
-
-currentuser=$(whoami) # Check user and then stop the script if root
-if [[ $currentuser == "root" ]]; then
-	echo "DON'T RUN THIS SCRIPT AS ROOT! USE './BGM_Install.sh' !"
-	exit
 fi
 
 ##### Download the files needed and install the script + utilities
