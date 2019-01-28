@@ -114,4 +114,6 @@ echo "su $currentuser -c 'python ~/BGM.py &'
 
 Press Control+X, Y, and Enter to save changes. Reboot and enjoy!
 
-Example rc.local file: https://pastebin.com/E8NvrJJ1"
+Example rc.local file: https://pastebin.com/E8NvrJJ1
+
+OGST CASE NOTE: If you add ' - ' to the title of your song files it will add a new line character so it looks better on your OGST screen!"
