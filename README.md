@@ -3,6 +3,9 @@ This has all the files needed to install the background music script with added 
 Install Dependencies:
 
      sudo apt-get install omxplayer python-pygame mpg123 imagemagick python-urllib3 libpng12-0 fbi
+&
+
+     pip install requests
 
 Just make the bash script executable with "sudo chmod +x BGM_Install.sh" and run it (NOT AS ROOT!!!) ("./BGM_Install.sh") and it will do the following:
 
