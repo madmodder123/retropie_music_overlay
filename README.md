@@ -1,7 +1,12 @@
 This has all the files needed to install the background music script with added overlays!
+
+Install Dependencies:
+
+     sudo apt-get install omxplayer python-pygame mpg123 imagemagick python-urllib3 libpng12-0 fbi
+
 Just make the bash script executable with "sudo chmod +x BGM_Install.sh" and run it (NOT AS ROOT!!!) ("./BGM_Install.sh") and it will do the following:
 
-Download/install python-pygame and imagemagick.
+Download stuff needed (make sure u have the dependencies above, if you have ODROID it should autodetect and install the needed ones)
 
 Move pngview to the correct directory.
 
